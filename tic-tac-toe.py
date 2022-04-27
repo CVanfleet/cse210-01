@@ -3,109 +3,256 @@
 # Assignment: W02 Tick-Tac-Toe 
 
 from turtle import *
-import turtle
+import turtle as t
+grid = {1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None, 9: None}
+turn = 'x'
+t.pensize(5)
+scrn = t.Screen()
+scrn.setup(width=350, height=350)
+t.speed(10)
+t.pensize(5)
+t.hideturtle()
+t.Screen().bgcolor('lightgray')
 
-def main():
-
-    tur = turtle.Turtle()
-    scrn = turtle.Screen()
-    scrn.setup(width=350, height=350)
-    tur.speed(10)
-    
-
-
-    while True:
-
-        size = input()
-
-        if size == '3':
-            threebythree(tur,scrn)
-        elif size == '4x4':
-            fourbyfour(tur,scrn)
-        elif size == '5x5':
-            fivebyfive(tur,scrn)
-        elif size == '6x6':
-            sixbysix(tur,scrn)
-        print('Please input 3x3, 4x4, 5x5, or 6x6')
-        pass
-
-def threebythree(tur,scrn):
+def play():
 
     #create grid
-    tur.up()
-    tur.goto(-50,150)
-    tur.down()
-    tur.left(270)
-    tur.forward(300)
+    t.color('black')
 
-    tur.up()
-    tur.goto(50,150)
-    tur.down()
-    tur.forward(300)
+    t.up()
+    t.goto(-50,150)
+    t.down()
+    t.left(270)
+    t.forward(300)
 
-    tur.up()
-    tur.goto(-150,50)
-    tur.left(90)
-    tur.down()
-    tur.forward(300)
+    t.up()
+    t.goto(50,150)
+    t.down()
+    t.forward(300)
 
-    tur.up()
-    tur.goto(-150,-50)
-    tur.down()
-    tur.forward(300)
+    t.up()
+    t.goto(-150,50)
+    t.left(90)
+    t.down()
+    t.forward(300)
 
-    tur.hideturtle()
+    t.up()
+    t.goto(-150,-50)
+    t.down()
+    t.forward(300)
 
-
-    turtle.onscreenclick(getCoord)
-
+    t.hideturtle()
 
 
-def fourbyfour(tur,scrn):
-    print('This is four by four')
-def fivebyfive(tur,scrn):
+
+    t.onscreenclick(getCoord)
+    t.mainloop()
+
+
+def calculateWin(turn):
+    
+    if (grid[1] == turn) and (grid[2] == turn) and (grid[3] == turn):
+        print(f"The {turn}'s win!!")
+        again = input('Do you want to play again? (y/n) ')
+        if again == 'y':
+            t.clear()
+            main()
+        print('Thanks for playing! Bye!')
+    elif (grid[1] == turn) and (grid[4] == turn) and (grid[7] == turn):
+        print(f"The {turn}'s win!!")
+        again = input('Do you want to play again? (y/n) ')
+        if again == 'y':
+            t.clear()
+            main()
+        print('Thanks for playing! Bye!')
+    elif (grid[1] == turn) and (grid[5] == turn) and (grid[9] == turn):
+        print(f"The {turn}'s win!!")
+        again = input('Do you want to play again? (y/n) ')
+        if again == 'y':
+            t.clear()
+            main()
+        print('Thanks for playing! Bye!')
+    elif (grid[2] == turn) and (grid[5] == turn) and (grid[8] == turn):
+        print(f"The {turn}'s win!!")
+        again = input('Do you want to play again? (y/n) ')
+        if again == 'y':
+            t.clear()
+            main()
+        print('Thanks for playing! Bye!')
+    elif (grid[3] == turn) and (grid[5] == turn) and (grid[7] == turn):
+        print(f"The {turn}'s win!!")
+        again = input('Do you want to play again? (y/n) ')
+        if again == 'y':
+            t.clear()
+            main()
+        print('Thanks for playing! Bye!')
+    elif (grid[3] == turn) and (grid[6] == turn) and (grid[9] == turn):
+        print(f"The {turn}'s win!!")
+        again = input('Do you want to play again? (y/n) ')
+        if again == 'y':
+            t.clear()
+            main()
+        print('Thanks for playing! Bye!')
+    else:
+        pass
+
+def fivebyfive(t,scrn):
     print('This is five by five')
-def sixbysix(tur,scrn):
+def sixbysix(t,scrn):
     print('This is six by six')
 
 def o(x,y):
-    turtle.goto(x,y-25)
-    turtle.down()
-    turtle.circle(25)
+    
+    t.color('blue')
+    t.goto(x,y-25)
+    t.down()
+    t.circle(25)
 
 def ex(x,y):
-    turtle.goto(x-17.5,y-17.5)
-    turtle.down()
+    t.color('red')
+    t.goto(x-17.5,y-17.5)
+    t.down()
 
-    turtle.left(45)
-    turtle.forward(50)
-    turtle.up()
-    turtle.right(45)
-    turtle.backward(35)
-    turtle.right(45)
-    turtle.down()
-    turtle.forward(50)
+    t.left(45)
+    t.forward(50)
+    t.up()
+    t.right(45)
+    t.backward(35)
+    t.right(45)
+    t.down()
+    t.forward(50)
 
+                                #reset ts direction
+    t.right(45)
+    t.left(45)
+    t.left(45)
 
 def getCoord(x,y):
+    
+    t.up()
+    
+    
+    global turn
+    
+    if (x < -50) and (y > 50):
+        if turn == 'x':
+            grid[1] = turn
+            ex(x,y)
+            calculateWin(turn)
+            turn = 'o'
+        elif turn == 'o':
+            grid[1] = turn
+            o(x,y)
+            calculateWin(turn)
+            turn = 'x'
+    elif (50 > x > -50) and (y > 50):
+        if turn == 'x':
+            grid[2] = turn
+            ex(x,y)
+            calculateWin(turn)
+            turn = 'o'
+        elif turn == 'o':
+            grid[2] = turn
+            o(x,y)
+            calculateWin(turn)
+            turn = 'x'
+    elif (x>50) and (y>50):
+        if turn == 'x':
+            grid[3] = turn
+            ex(x,y)
+            calculateWin(turn)
+            turn = 'o'
+        elif turn == 'o':
+            grid[3] = turn
+            o(x,y)
+            calculateWin(turn)
+            turn = 'x'
+    elif (x < -50) and (50 > y > -50):
+        if turn == 'x':
+            grid[4] = turn
+            ex(x,y)
+            calculateWin(turn)
+            turn = 'o'
+        elif turn == 'o':
+            grid[4] = turn
+            o(x,y)
+            calculateWin(turn)
+            turn = 'x'
+    elif (-50 < x < 50) and (50 > y > -50):
+        if turn == 'x':
+            grid[5] = turn
+            ex(x,y)
+            calculateWin(turn)
+            turn = 'o'
+        elif turn == 'o':
+            grid[5] = turn
+            o(x,y)
+            calculateWin(turn)
+            turn = 'x'
+    elif (x > 50) and (50 > y > -50):
+        if turn == 'x':
+            grid[6] = turn
+            ex(x,y)
+            calculateWin(turn)
+            turn = 'o'
+        elif turn == 'o':
+            grid[6] = turn
+            o(x,y)
+            calculateWin(turn)
+            turn = 'x'
+    elif (x < -50) and (-50 > y):
+        if turn == 'x':
+            grid[7] = turn
+            ex(x,y)
+            calculateWin(turn)
+            turn = 'o'
+        elif turn == 'o':
+            grid[7] = turn
+            o(x,y)
+            calculateWin(turn)
+            turn = 'x'
+    elif (50 > x > -50) and (y < -50):
+        if turn == 'x':
+            grid[8] = turn
+            ex(x,y)
+            calculateWin(turn)
+            turn = 'o'
+        elif turn == 'o':
+            grid[8] = turn
+            o(x,y)
+            calculateWin(turn)
+            turn = 'x'
+    elif (x > 50) and (y < -50):
+        if turn == 'x':
+            grid[9] = turn
+            ex(x,y)
+            calculateWin(turn)
+            turn = 'o'
+        elif turn == 'o':
+            grid[9] = turn
+            o(x,y)
+            calculateWin(turn)
+            turn = 'x'
+            
+    
+
+
+def main():
+
+    t.clear()
+
+    global grid
 
     grid = {1: None, 2: None, 3: None, 4: None, 5: None, 6: None, 7: None, 8: None, 9: None}
 
-    turtle.up()
-    turtle.hideturtle()
-    print(x, y)
 
-    if (x < -50) and (y > 50):
-        grid[1] = 'o'
-        o(x,y)
-        print(grid)
-    elif (50 > x > -50) and (y > 50):
-        grid[2] = 'x'
-        ex(x,y)
-        print(grid)
+    ready = input('Are you ready to play? (y/n) ')
 
-    
 
+    if ready == 'y':
+        play()
+    print('Okay, by!')
+       
 
 
 
